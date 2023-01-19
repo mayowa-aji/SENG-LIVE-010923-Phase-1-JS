@@ -1,6 +1,25 @@
 function formatPrice(price) {
   return '$' + Number.parseFloat(price).toFixed(2);
 }
+////////////////////////////////////////////
+// call render functions to populate the DOM
+////////////////////////////////////////////
+
+fetch(' http://localhost:3000/stores/1')
+  .then(response => response.json())
+  .then(bookStore => {
+    renderHeader(bookStore)
+    renderFooter(bookStore)
+  })
+
+fetch('http://localhost:3000/books')
+  .then(response => response.json())
+  .then(books => {
+    books.forEach(renderBook)
+  })
+
+
+
 
 ///////////////////
 // render functions
@@ -27,10 +46,10 @@ function renderFooter(bookStore) {
 // </li>
 // appends the li to the ul#book-list in the DOM
 function renderBook(book) {
-    
+
   const li = document.createElement('li');
   li.className = 'list-li';
-  
+
   const h3 = document.createElement('h3');
   h3.textContent = book.title;
   li.append(h3);
@@ -38,11 +57,11 @@ function renderBook(book) {
   const pAuthor = document.createElement('p');
   pAuthor.textContent = book.author;
   li.append(pAuthor);
-  
+
   const pPrice = document.createElement('p');
   pPrice.textContent = formatPrice(book.price);
   li.append(pPrice);
-  
+
   const pStock = document.createElement('p');
   pStock.className = "grey";
   if (book.inventory === 0) {
@@ -53,7 +72,7 @@ function renderBook(book) {
     pStock.textContent = "In stock"
   }
   li.append(pStock);
-  
+
   const img = document.createElement('img');
   img.src = book.imageUrl;
   img.alt = `${book.title} cover`;
@@ -114,21 +133,13 @@ bookForm.addEventListener('submit', (e) => {
     imageUrl: e.target.imageUrl.value,
     reviews: []
   }
-  
+
   e.target.reset(); // clear form
   toggleBookForm(); // hide book form
   renderBook(book); // display new book to DOM
 })
 
 
-
-////////////////////////////////////////////
-// call render functions to populate the DOM
-////////////////////////////////////////////
-
-renderHeader(bookStore)
-renderFooter(bookStore)
-bookStore.inventory.forEach(renderBook)
 
 
 
