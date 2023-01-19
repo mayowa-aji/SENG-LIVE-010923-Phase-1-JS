@@ -1,23 +1,60 @@
-//BookStore has been moved to data.js 
+//BookStore has been moved to data.js
 console.log(bookStore);
 
 function formatPrice(price) {
   return '$' + Number.parseFloat(price).toFixed(2);
 }
+function renderHeader(bookStore) {
+  document.querySelector('h1').textContent = bookStore.name
+}
+renderHeader(bookStore)
 
-// create a function called renderBook(book)
-// it will take a book object as an argument
-// and create the html struture for rendering 
-// that book and insert it into our webpage!
+function renderFooter(bookStore) {
+  document.querySelector('#store').textContent = bookStore.location
+  document.querySelector('#number').textContent = bookStore.number
+  document.querySelector('#address').textContent = bookStore.address
+}
+renderFooter(bookStore)
 
-// function renderBook(book) {
-// should create an li element that looks something like this:
-  // <li class="list-li">
-  //   <h3>Eloquent JavaScript : A Modern Introduction to Programming</h3>
-  //   <p>Marjin Haverbeke</p>
-  //   <p>$10.00</p>
-  //   <img src="https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg" alt="Eloquent JavaScript cover"/>
-  //   <button>Delete</button>
-  // </li>
 
-  
+function renderBook(book) {
+  const li = document.createElement('li')
+  li.className = 'list-li'
+
+  const h3 = document.createElement('h3')
+  li.append(h3)
+  h3.textContent = book.title
+
+  const pAuthor = document.createElement('p')
+  li.append(pAuthor)
+  pAuthor.textContent = book.author
+
+  const pPrice = document.createElement('p')
+  li.append(pPrice)
+  pPrice.textContent = formatPrice(book.price)
+
+
+  const img = document.createElement('img')
+  li.append(img)
+  img.src = book.imageUrl
+  img.alt = `${book.title} cover`
+  img.title = `${book.title} cover`
+
+
+  const button = document.createElement('button')
+  li.append(button)
+  button.textContent = 'Delete'
+
+
+  const ul = document.querySelector('#book-list')
+  ul.append(li)
+
+}
+const book = renderBook(bookStore.inventory[0])
+bookStore.inventory.forEach(book => { renderBook(book)})
+
+
+
+
+
+
