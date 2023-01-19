@@ -29,10 +29,10 @@ function renderFooter(bookStore) {
 // </li>
 // appends the li to the ul#book-list in the DOM
 function renderBook(book) {
-    
+
   const li = document.createElement('li');
   li.className = 'list-li';
-  
+
   const h3 = document.createElement('h3');
   h3.textContent = book.title;
   li.append(h3);
@@ -40,11 +40,11 @@ function renderBook(book) {
   const pAuthor = document.createElement('p');
   pAuthor.textContent = book.author;
   li.append(pAuthor);
-  
+
   const pPrice = document.createElement('p');
   pPrice.textContent = formatPrice(book.price);
   li.append(pPrice);
-  
+
   const img = document.createElement('img');
   img.src = book.imageUrl;
   img.alt = `${book.title} cover`;
@@ -53,11 +53,41 @@ function renderBook(book) {
 
   const btn = document.createElement('button');
   btn.textContent = 'Delete';
+
+  btn.addEventListener('click', (e) => {
+    li.remove();
+  })
+
   li.append(btn);
 
   document.querySelector('#book-list').append(li);
 }
 
+const toggleBookFormButton = document.querySelector('#toggleForm')
+const bookForm = document.querySelector('#book-form');
+
+toggleBookFormButton.addEventListener('click', (e) => {
+  bookFormHidden = bookForm.classList.toggle('collapsed')
+  if (bookFormHidden) {
+    toggleBookFormButton.textContent = 'New Book'
+  } else {
+    toggleBookFormButton.textContent = 'Hide  Form'
+  }
+});
+
+bookForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const book = {
+    title: e.target.title.value,
+    author: e.target.author.value,
+    price: parseFloat(e.target.price.value),
+    reviews: [],
+    inventory: parseInt(e.target.inventory.value),
+    imageUrl: e.target.imageUrl.value,
+  }
+ renderBook(book)
+
+})
 
 ////////////////////////////////////////////
 // call render functions to populate the DOM
