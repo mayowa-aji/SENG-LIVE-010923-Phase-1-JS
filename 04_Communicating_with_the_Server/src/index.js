@@ -5,19 +5,17 @@ function formatPrice(price) {
 // call render functions to populate the DOM
 ////////////////////////////////////////////
 
-fetch(' http://localhost:3000/stores/1')
+fetch("http://localhost:3000/stores/1")
   .then(response => response.json())
-  .then(bookStore => {
-    renderHeader(bookStore)
-    renderFooter(bookStore)
+  .then((bookStore) => {
+    renderHeader(bookStore);
+    renderFooter(bookStore);
   })
-
-fetch('http://localhost:3000/books')
+fetch("  http://localhost:3000/books")
   .then(response => response.json())
-  .then(books => {
-    books.forEach(renderBook)
+  .then((books) => {
+    books.forEach(renderBook);
   })
-
 
 
 
@@ -46,7 +44,6 @@ function renderFooter(bookStore) {
 // </li>
 // appends the li to the ul#book-list in the DOM
 function renderBook(book) {
-
   const li = document.createElement('li');
   li.className = 'list-li';
 
@@ -63,13 +60,13 @@ function renderBook(book) {
   li.append(pPrice);
 
   const pStock = document.createElement('p');
-  pStock.className = "grey";
+  pStock.className = 'grey';
   if (book.inventory === 0) {
-    pStock.textContent = "Out of stock";
+    pStock.textContent = 'Out of stock';
   } else if (book.inventory < 3) {
-    pStock.textContent = "Only a few left!";
+    pStock.textContent = 'Only a few left!';
   } else {
-    pStock.textContent = "In stock"
+    pStock.textContent = 'In stock';
   }
   li.append(pStock);
 
@@ -84,26 +81,24 @@ function renderBook(book) {
 
   btn.addEventListener('click', (e) => {
     li.remove();
-  })
-
+  });
 
   document.querySelector('#book-list').append(li);
 }
-
 
 ////////////////////////////////////////////////////////////////
 // Event Listeners/Handlers (Behavior => Data => Display)
 ////////////////////////////////////////////////////////////////
 
-const toggleBookFormButton = document.querySelector('#toggleForm')
+const toggleBookFormButton = document.querySelector('#toggleForm');
 const bookForm = document.querySelector('#book-form');
 
 function toggleBookForm() {
   const bookFormHidden = bookForm.classList.toggle('collapsed');
   if (bookFormHidden) {
-    toggleBookFormButton.textContent = "New Book";
+    toggleBookFormButton.textContent = 'New Book';
   } else {
-    toggleBookFormButton.textContent = "Hide Book Form";
+    toggleBookFormButton.textContent = 'Hide Book Form';
   }
 }
 
@@ -119,7 +114,7 @@ window.addEventListener('keydown', (e) => {
       toggleBookForm();
     }
   }
-})
+});
 
 // handle submitting new book form
 bookForm.addEventListener('submit', (e) => {
@@ -131,14 +126,13 @@ bookForm.addEventListener('submit', (e) => {
     price: parseFloat(e.target.price.value),
     inventory: parseInt(e.target.inventory.value),
     imageUrl: e.target.imageUrl.value,
-    reviews: []
-  }
+    reviews: [],
+  };
 
   e.target.reset(); // clear form
   toggleBookForm(); // hide book form
   renderBook(book); // display new book to DOM
-})
-
+});
 
 
 
